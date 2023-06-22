@@ -8,6 +8,15 @@ public class Task {
     String condition;
     int maxGrade;
     ArrayList<ArrayList<String>> Data;
+    TaskReport report;
+
+    public TaskReport getReport() {
+        return report;
+    }
+
+    public void setReport(TaskReport report) {
+        this.report = report;
+    }
 
     public int getTaskNumber() {
         return taskNumber;
@@ -44,6 +53,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Задание " + taskNumber;
+        if (report != null){
+            return "Задание " + (taskNumber+1) + ", оценено, оценка: " +report.getGrade();
+        } else return "Задание " + (taskNumber+1);
     }
 }

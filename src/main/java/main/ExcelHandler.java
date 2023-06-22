@@ -6,16 +6,19 @@ import main.models.Task;
 import main.models.Variant;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ExcelHandler {
+
+    static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public static ArrayList<Group> importStudents(File file) throws IOException, InvalidFormatException {
         XSSFWorkbook book = new XSSFWorkbook(file);
@@ -39,7 +42,6 @@ public class ExcelHandler {
     }
 
     public static Variant importVar(String fileName) throws IOException {
-        InputStream input = ExcelHandler.class.getResourceAsStream(fileName);
         XSSFWorkbook book = new XSSFWorkbook(fileName);
         Variant variant = new Variant();
         ArrayList<Task> tasks = new ArrayList<>();
@@ -53,7 +55,7 @@ public class ExcelHandler {
         return variant;
     }
 
-    public static Task getCondition(XSSFSheet lastSheet, Task task){
+    public static void getCondition(XSSFSheet lastSheet, Task task){
         int grade = 0;
         String condition = "";
         for (int i = 0; i<lastSheet.getLastRowNum(); i++){
@@ -67,7 +69,6 @@ public class ExcelHandler {
         }
         task.setCondition(condition);
         task.setMaxGrade(grade);
-        return task;
     }
 
     public static Task importTask(XSSFWorkbook book, int taskNumber) {
@@ -83,7 +84,9 @@ public class ExcelHandler {
                 String rec = null;
                 if (row.getCell(j).getCellType() == CellType.STRING) {
                     rec = row.getCell(j).getStringCellValue();
-                } else {
+                } else if (DateUtil.isCellDateFormatted(row.getCell(j))){
+                    rec = dateFormat.format(row.getCell(j).getDateCellValue());
+                } else if (row.getCell(j).getCellType() == CellType.NUMERIC){
                     rec = String.valueOf(row.getCell(j).getNumericCellValue());
                 }
                 dataRow.add(rec);
@@ -94,5 +97,4 @@ public class ExcelHandler {
         task.setData(data);
         return task;
     }
-
 }

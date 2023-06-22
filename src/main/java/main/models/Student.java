@@ -4,6 +4,15 @@ public class Student {
 
     int var;
     String fio;
+    StudentReport report;
+
+    public StudentReport getReport() {
+        return report;
+    }
+
+    public void setReport(StudentReport report) {
+        this.report = report;
+    }
 
     public int getVar() {
         return var;
@@ -23,9 +32,12 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "var=" + var +
-                ", fio='" + fio + '\'' +
-                '}';
+        String rate;
+        if (report==null){
+            rate = "не оценен";
+        } else if (report.noWork){
+            rate = "нет работы";
+        } else rate = "оценен";
+        return "" + fio + ", " + var + " вариант, " + rate;
     }
 }
