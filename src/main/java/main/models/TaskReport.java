@@ -3,6 +3,15 @@ package main.models;
 public class TaskReport {
 
     int grade;
+    String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public int getGrade() {
         return grade;

@@ -54,7 +54,7 @@ public class Task {
     @Override
     public String toString() {
         if (report != null){
-            return "Задание " + (taskNumber+1) + ", оценено, оценка: " +report.getGrade();
-        } else return "Задание " + (taskNumber+1);
+            return "Р—Р°РґР°РЅРёРµ " + (taskNumber+1) + ", РѕС†РµРЅРµРЅРѕ, РѕС†РµРЅРєР°: " +report.getGrade();
+        } else return "Р—Р°РґР°РЅРёРµ " + (taskNumber+1);
     }
 }

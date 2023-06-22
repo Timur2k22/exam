@@ -29,11 +29,16 @@ public class StudentEstimation extends JFrame {
     private JButton rateButton;
     private JTextField textField1;
     private JButton endRateButton;
+    private JButton addCommentButton;
+    private JTextField commentTextField;
+    private JButton withoutCommentButton;
+    private JButton notCompletedButton;
+    private JButton correctButton;
 
     public StudentEstimation(Variant variant, Student student, Interface intrface) {
 
         setContentPane(estimationPanel);
-        setTitle("«‡‰‡ÌËˇ ‚‡Ë‡ÌÚ‡");
+        setTitle("–ó–∞–¥–∞–Ω–∏—è –≤–∞—Ä–∏–∞–Ω—Ç–∞");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1250, 600);
         setLocationRelativeTo(null);
@@ -42,7 +47,7 @@ public class StudentEstimation extends JFrame {
             tasks = student.getReport().getTasks();
         } else tasks = variant.getTasks();
         fio.setText(student.getFio());
-        var.setText(student.getVar() + " ‚‡Ë‡ÌÚ");
+        var.setText(student.getVar() + " –≤–∞—Ä–∏–∞–Ω—Ç");
 
         updateTasksList();
 
@@ -50,6 +55,11 @@ public class StudentEstimation extends JFrame {
             textField1.setText("");
             textField1.setEnabled(true);
             rateButton.setEnabled(true);
+            commentTextField.setEnabled(true);
+            commentTextField.setText("");
+            correctButton.setEnabled(true);
+            notCompletedButton.setEnabled(true);
+            withoutCommentButton.setEnabled(true);
             Task task = tasks.get(list1.getSelectedIndex());
             if (task.getCondition().length() > 125) {
                 description.setText(task.getCondition().substring(0, 125) + "-");
@@ -59,8 +69,8 @@ public class StudentEstimation extends JFrame {
                 description2.setText("");
             }
             if (task.getMaxGrade() > 4) {
-                maxGrade.setText(task.getMaxGrade() + " ·‡ÎÎÓ‚");
-            } else maxGrade.setText(task.getMaxGrade() + " ·‡ÎÎ‡");
+                maxGrade.setText(task.getMaxGrade() + " –±–∞–ª–ª–æ–≤");
+            } else maxGrade.setText(task.getMaxGrade() + " –±–∞–ª–ª–∞");
             if (tasks.get(list1.getSelectedIndex()).getReport() != null) {
                 textField1.setText(tasks.get(list1.getSelectedIndex()).getReport().getGrade() + "");
             }
@@ -76,22 +86,23 @@ public class StudentEstimation extends JFrame {
 
         rateButton.addActionListener(e -> {
             try {
-                if (tasks.get(list1.getSelectedIndex()).getMaxGrade() < Integer.parseInt(textField1.getText())) {
-                    JOptionPane.showMessageDialog(StudentEstimation.this, "ŒˆÂÌÍ‡ ÔÂ‚˚¯‡ÂÚ Ï‡ÍÒËÏ‡Î¸Ì˚È ·‡ÎÎ");
+                if (tasks.get(list1.getSelectedIndex()).getMaxGrade() < Integer.parseInt(textField1.getText()) && Integer.parseInt(textField1.getText()) >= 0) {
+                    JOptionPane.showMessageDialog(StudentEstimation.this, "–û—Ü–µ–Ω–∫–∞ –ø—Ä–µ–≤—ã—à–∞–µ—Ç –º–∞–∫—Å–∏–º–∞–ª—å–Ω—ã–π –±–∞–ª–ª");
                 } else {
                     TaskReport taskReport = new TaskReport();
                     taskReport.setGrade(Integer.parseInt(textField1.getText()));
+                    taskReport.setComment(commentTextField.getText());
                     tasks.get(list1.getSelectedIndex()).setReport(taskReport);
                     updateTasksList();
                 }
             } catch (IllegalArgumentException exception) {
-                JOptionPane.showMessageDialog(StudentEstimation.this, "ÕÂÓ·ıÓ‰ËÏÓ ‚‚ÂÒÚË ˆÂÎÓÂ ˜ËÒÎÓ");
+                JOptionPane.showMessageDialog(StudentEstimation.this, "–ù–µ–æ–±—Ö–æ–¥–∏–º–æ –≤–≤–µ—Å—Ç–∏ —Ü–µ–ª–æ–µ —á–∏—Å–ª–æ");
             }
         });
 
         endRateButton.addActionListener(e -> {
             if (tasks.stream().filter(task -> task.getReport() == null).findFirst().orElse(null) != null) {
-                JOptionPane.showMessageDialog(StudentEstimation.this, "ÕÂ ‚ÒÂ Á‡‰‡ÌËˇ ÓˆÂÌÂÌ˚");
+                JOptionPane.showMessageDialog(StudentEstimation.this, "–ù–µ –≤—Å–µ –∑–∞–¥–∞–Ω–∏—è –æ—Ü–µ–Ω–µ–Ω—ã");
             } else {
                 report.setTasks(tasks);
                 intrface.setEnabled(true);
@@ -99,6 +110,12 @@ public class StudentEstimation extends JFrame {
             }
         });
         list1.addListSelectionListener(e -> showTaskButton.setEnabled(true));
+
+        correctButton.addActionListener(e -> commentTextField.setText("–ó–∞–¥–∞–Ω–∏–µ –≤—ã–ø–æ–ª–Ω–µ–Ω–æ –∫–æ—Ä—Ä–µ–∫—Ç–Ω–æ"));
+
+        notCompletedButton.addActionListener(e -> commentTextField.setText("–ó–∞–¥–∞–Ω–∏–µ –Ω–µ –≤—ã–ø–æ–ª–Ω–µ–Ω–æ"));
+
+        withoutCommentButton.addActionListener(e -> commentTextField.setText("–ë–µ–∑ –∫–æ–º–º–µ–Ω—Ç–∞—Ä–∏—è"));
     }
 
     public void updateTasksList() {

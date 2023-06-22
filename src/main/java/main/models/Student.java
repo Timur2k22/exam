@@ -34,10 +34,10 @@ public class Student {
     public String toString() {
         String rate;
         if (report==null){
-            rate = "не оценен";
+            rate = "РЅРµ РѕС†РµРЅРµРЅ";
         } else if (report.noWork){
-            rate = "нет работы";
-        } else rate = "оценен";
-        return "" + fio + ", " + var + " вариант, " + rate;
+            rate = "РЅРµС‚ СЂР°Р±РѕС‚С‹";
+        } else rate = "РѕС†РµРЅРµРЅ";
+        return "" + fio + ", " + var + " РІР°СЂРёР°РЅС‚, " + rate;
     }
 }
