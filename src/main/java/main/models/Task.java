@@ -1,4 +1,4 @@
-package main;
+package main.models;
 
 import java.util.ArrayList;
 
@@ -42,13 +42,8 @@ public class Task {
     }
 
 
-
     @Override
     public String toString() {
-        return "Task{" +
-                "condition='" + condition + '\'' +
-                ", maxGrade=" + maxGrade +
-                ", Data=" + Data +
-                '}';
+        return "Задание " + taskNumber;
     }
 }

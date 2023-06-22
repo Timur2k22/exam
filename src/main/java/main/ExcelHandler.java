@@ -1,18 +1,24 @@
 package main;
 
+import main.models.Group;
+import main.models.Student;
+import main.models.Task;
+import main.models.Variant;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ExcelHandler {
 
-    public static ArrayList<Group> importStudents(String fileName) throws IOException {
-        InputStream input = ExcelHandler.class.getResourceAsStream(fileName);
-        XSSFWorkbook book = new XSSFWorkbook(input);
+    public static ArrayList<Group> importStudents(File file) throws IOException, InvalidFormatException {
+        XSSFWorkbook book = new XSSFWorkbook(file);
         ArrayList<Group> groups = new ArrayList<>();
         for (int i = 0; i<book.getNumberOfSheets(); i++){
             XSSFSheet sheet = book.getSheetAt(i);
@@ -34,7 +40,7 @@ public class ExcelHandler {
 
     public static Variant importVar(String fileName) throws IOException {
         InputStream input = ExcelHandler.class.getResourceAsStream(fileName);
-        XSSFWorkbook book = new XSSFWorkbook(input);
+        XSSFWorkbook book = new XSSFWorkbook(fileName);
         Variant variant = new Variant();
         ArrayList<Task> tasks = new ArrayList<>();
         for (int i = 0; i<book.getNumberOfSheets()-1; i++){
@@ -75,12 +81,11 @@ public class ExcelHandler {
             ArrayList<String> dataRow = new ArrayList<>();
             while (row.getCell(j) != null) {
                 String rec = null;
-                /*if (row.getCell(j).getCellType() == CellType.STRING) {
+                if (row.getCell(j).getCellType() == CellType.STRING) {
                     rec = row.getCell(j).getStringCellValue();
                 } else {
-                    rec = String.valueOf(row.getCell(j).getDateCellValue());
-                }*/
-                rec = row.getCell(j).getRawValue();
+                    rec = String.valueOf(row.getCell(j).getNumericCellValue());
+                }
                 dataRow.add(rec);
                 j++;
             }

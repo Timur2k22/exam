@@ -1,4 +1,6 @@
-package main;
+package main.models;
+
+import main.models.Task;
 
 import java.util.ArrayList;
 
